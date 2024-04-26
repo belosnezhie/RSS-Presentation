@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<p>Let`s talk about SOLID</p>
+				</section>
+				<section>
+					<section>
+						<h2>Definition</h2>
+						<p>SOLID is a mnemonic acronym for five design principles intended to make object-oriented designs more understandable, flexible, and maintainable.</p>
+					</section>
+					<section>
+						<h2>History</h2>
+						<p>The principles were introduced by Robert C. Martin.</p>
+						<p>Later, in 2004 Michael Feathers  coined the acronym SOLID:<p>
+						<ul>
+							<li>S - Single-responsibility Principle</li>
+							<li>O - Open-closed Principle</li>
+							<li>L - Liskov Substitution Principle</li>
+							<li>I - Interface Segregation Principle</li>
+							<li>D - Dependency Inversion Principle</li>
+						</ul>
+					</section>
+					<section>
+						<h1>Why SOLID?</h1>
+						<ul>
+							<li>to reduce dependencies so that engineers change one area of software without impacting others;</li>
+							<li>to make designs easier to understand, maintain, and extend;</li>
+							<li>to make it easier for software engineers to avoid issues and to build adaptive, effective, and agile software;</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>Single Responsibility Principle</h1>
+					</section>
+					<section>
+						<h3>Meaning:</h3>
+						<ul>
+							<li>A class should have only one reason to change.</li>
+							<li>It should have only one responsibility.</li>
+						</ul>
+					</section>
+					<section>
+						<p>Before applying SRP</p>
+						<pre><code data-trim data-noescape>
+							class UserManager {
+								authenticateUser(username, password) {
+									if (username === "admin" && password === "password") {
+										return true;
+									} else {
+										return false;
+									}
+								}
+								
+								updateUserProfile(user, newInfo) {
+									console.log("User profile updated.");
+								}
+							}							
+						</code></pre>
+					  </section>
+					  <section>
+						<p>After applying SRP</p>
+						<pre><code data-trim data-noescape>
+							class AuthManager {
+								authenticateUser(username, password) {
+									if (username === "admin" && password === "password") {
+										return true;
+									} else {
+										return false;
+									}
+								}
+							}
+							
+							class UserProfileManager {
+								updateUserProfile(user, newInfo) {
+									console.log("User profile updated.");
+								}
+							}							
+						</code></pre>
+					  </section>
+					  <section>
+						<h3>Advantages</h3>
+						<ul>
+							<li>Enhances code readability, maintainability, and testability</li>
+							<li>Reduce the risk of unintended side effects when making changes to the codebase</li>
+						</ul>
+					  </section>
+				</section>
+				<section>
+					<section>
+						<h1>Open/Closed Principle</h1>
+					</section>
+					<section>
+						<h3>Meaning:</h3>
+						<ul>
+							<li>Software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification.</li>
+							<li>A class should be extendable without modifying the class itself.</li>
+						</ul>
+					</section>
+					<section>
+						<p>Before applying OCP</p>
+						<pre><code data-trim data-noescape>
+							class Shape {
+								constructor(type, width, height) {
+									this.type = type;
+									this.width = width;
+									this.height = height;
+								}
+								
+								calculateArea() {
+									if (this.type === 'rectangle') {
+										return this.width * this.height;
+									} else if (this.type === 'circle') {
+										return Math.PI * Math.pow(this.width / 2, 2);
+									}
+								}
+							}							
+						</code></pre>
+					  </section>
+					  <section>
+						<p>After applying OCP</p>
+						<pre><code data-trim data-noescape>
+							class Shape {
+								constructor() {}
+								calculateArea() {}
+							}
+							
+							class Rectangle extends Shape {
+								constructor(width, height) {
+									super();
+									this.width = width;
+									this.height = height;
+								}
+								
+								calculateArea() {
+									return this.width * this.height;
+								}
+							}							
+						</code></pre>
+					  </section>
+					  <section>
+						<h3>Advantages</h3>
+						<ul>
+							<li>Сreate software systems that are flexible, maintainable, and less prone to bugs when introducing new functionality</li>
+							<li>Promote code reusability and scalability.</li>
+						</ul>
+					  </section>
+				</section>
+				<section>
+					<section>
+						<h1>Liskov Substitution Principle</h1>
+					</section>
+					<section>
+						<h3>Meaning:</h3>
+						<ul>
+							<li>Objects of a superclass should be replaceable with objects of its subclasses without affecting the correctness of the program.</li>
+						</ul>
+					</section>
+					<section>
+						<p>Before applying LSP</p>
+						<pre><code data-trim data-noescape>
+							class Animal {
+								eat() {
+								  console.log("Animal Eats")
+								}
+							}
+
+							class Bird extends Animal {
+								fly() {
+								  console.log("Bird Flies")
+								}
+							}
+
+							class Penguin extends Bird {
+								console.log("Penguin Do Not Fly")
+							}
+						</code></pre>
+					  </section>
+					  <section>
+						<p>After applying LSP</p>
+						<pre><code data-trim data-noescape>
+							class Penguin extends Animal{
+								walk() {
+								  console.log("Penguin Walks")
+								}
+							}
+						</code></pre>
+					  </section>
+					  <section>
+						<h3>Advantages</h3>
+						<ul>
+							<li>The code can be reused easily because it allows for the use of generic interfaces or base classes that can be implemented or extended by different subclasses</li>
+							<li>The code becomes more understandable and easier to maintain</li>
+						</ul>
+					  </section>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>Interface Segregation Principle</h1>
+				</section>
+				<section>
+					<h3>Meaning:</h3>
+					<ul>
+						<li>No client should be forced to depend on methods it does not use.</li>
+						<li>Instead of creating a large interface that covers all the possible methods, it's better to create smaller, more focused interfaces for specific use cases.</li>
+					</ul>
+				</section>
+				<section>
+					<p>Before applying ISP</p>
+					<pre><code data-trim data-noescape>
+						class Machine {
+							print(document) {}
+							fax(document) {}
+							scan(document) {}
+						}
+						  
+						class MultiFunctionPrinter extends Machine {
+							print(document) {}
+							fax(document) {}
+							scan(document) {}
+						}
+						  
+						class OldFashionedPrinter extends Machine {
+							print(document) {}
+							fax(document) { throw new Error("fax not supported") }
+							scan(document) { throw new Error("scan not supported") }
+						}
+					</code></pre>
+				  </section>
+				  <section>
+					<p>After applying ISP</p>
+					<pre><code data-trim data-noescape>
+						class Printer {
+							print(document) { throw new Error("Not implemented") }
+						  }
+						  
+						class Scanner {
+							scan(document) { throw new Error("Not implemented") }
+						}
+						  
+						class Fax {
+							fax(document) { throw new Error("Not implemented") }
+						}
+
+						class OldFashionedPrinter extends Printer {
+							print(document) {   }
+						}
+					</code></pre>
+				  </section>
+				  <section>
+					<h3>Advantages</h3>
+					<ul>
+						<li>More modular, flexible, and maintainable code.</li>
+					</ul>
+				  </section>
+			</section>
+			<section>
+				<section>
+					<h1>Dependency Inversion Principle</h1>
+				</section>
+				<section>
+					<h3>Meaning:</h3>
+					<ul>
+						<li>High-level modules should not depend on low-level modules, but both should depend on abstractions</li>
+						<li>Abstractions should not depend on details – details should depend on abstractions.</li>
+					</ul>
+				</section>
+				<section>
+					<p>Before applying DIP</p>
+					<pre><code data-trim data-noescape>
+						class DatabaseService {
+							save(data) {   }
+						  }
+						  
+						class UserService {
+							constructor() {
+							  this.databaseService = new DatabaseService();
+							}
+						  
+							saveUser(user) {
+							  this.databaseService.save(user);
+							}
+						}
+					</code></pre>
+				  </section>
+				  <section>
+					<p>After applying DIP</p>
+					<pre><code data-trim data-noescape>
+						class DataRepository {
+						  save(data) {
+							throw new Error('Overridden by subclasses');
+						  }
+						}
+						
+						class DatabaseService extends DataRepository {
+						  save(data) { }
+						}
+						
+						class UserService {
+						  constructor(dataRepository) {
+							this.dataRepository = dataRepository;
+						  }
+						
+						  saveUser(user) {
+							this.dataRepository.save(user);
+						  }
+						}
+					</code></pre>
+				  </section>
+				  <section>
+					<h3>Advantages</h3>
+					<ul>
+						<li>Scalable and sustainable software architectures in JavaScript.</li>
+					</ul>
+				  </section>
+			</section>
+			<section>
+				<h2>Benefits</h2>
+				<ul>
+					<li>Modularity.</li>
+					<li>Flexibility.</li>
+					<li>Scalability.</li>
+					<li>Testability.</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Thank you for watching!</h2>
+			</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
